@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+   *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+        #query{
+            width: 558px;
+            height: 40px;
+            padding: 10px 10px 10px 10px;
+       border-top-left-radius: 15px;
+       border-top-right-radius: 15px;
+    
+      background-color:#2d2f30;
+      color: white;
+        }
+        #box{
+            width: 582px;
+            margin-top: 90px;
+        }
+
+      #card{
+            /* padding: 10px 10px 10px 10px; */
+      
+            
+            border-top: null;
+            max-height: 220px;
+      overflow-y: scroll;
+    
+      
+      border-bottom-left-radius: 15px;
+       border-bottom-right-radius: 15px;
+  border-bottom:grey;
+  border-left: grey;
+  border-right: grey;
+
+
+        }
+        /* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: gainsboro; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+        #container{
+            width: 100%;
+            height: 650px;
+            display: flex;
+            place-content: center;
+           background-color: black;
+        }
+        #cover{
+            display: flex;
+            justify-content: space-between;
+        }
+#name_box{
+padding: 10px 10px 10px 10px;
+}
+#gender{
+    font-size: small;
+    color: grey;
+}
+#birth_year{
+    font-size: x-small;
+    color: grey;
+
+}
+#logo_div{
+  margin-left: 28%;
+
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+#logo{
+    height: 100px;
+    width: 64%;
+   
+}
+
+#cont{
+    height: 500px;
+background-color: black;
+    width: 100%;
+    padding: 20px 20px 20px 20px;
+}
+#name_id{
+    margin-top: 50px;
+  font-size: xx-large;
+    font-weight: bold;
+color: red;
+    margin-left: 25%;
+}
+#small{
+    margin-top: 20px;
+display: grid;
+   grid-template-columns: repeat(4,1fr);
+   height: 40%;
+
+    padding: 10px 10px 10px 10px;
+
+}
+#chota,#chota1{
+
+    padding: 10px 10px 10px 10px;
+    border: 1px solid red;
+    margin: 40px;
+    width: 80%;
+    border-radius: 10px;
+}
+#chota:hover{
+   background-color: white;
+}
+#chota1:hover{
+   background-color: white;
+}
+#chota>p,#chota1>p{
+    color: red;
+}
+#chota>h,#chota1>h{
+    color: red;
+}
+
+#chota1{
+    margin-left: 120px;
+    margin-right: -20px;
+}
+#btn{
+    margin-top: 40px;
+    padding: 20px 25px 20px 25px;
+    border-radius: 10px;
+    color: red;
+    margin-left: 37%;
+    border: 1px solid red;
+    background-color: black;
+}
+#btn:hover{
+color: white;
+border:1px solid white;
+} 
+</style>
+<body>
+    
+    
+
+    <div id="container">
+        <div id="box">
+<div id="logo_div">
+
+
+<img id="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNJQwT0R-o8hOZ0UIcDV2d1bkmIHPOzUmoSA&usqp=CAU"
+alt=""></div>
+<input type="text" oninput="main()" placeholder="Search Character" id="query">
+<div id="card"></div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    let card_div=document.querySelector("#card")
+    async function  kajal(q){
+        let url=`https://swapi.dev/api/people/?search=${q}`
+
+        let res=await fetch(url)
+        let data=await res.json()
+        return data.results;
+    }
+    async function main(){
+        let query=document.getElementById("query").value;
+        let response=await kajal(query)
+        let data=await response
+        console.log(data)
+        appendstar(data)
+    }
+    function appendstar(data){
+        card_div.innerHTML=null;
+        data.forEach(function(element,index){
+            let name_box=document.createElement("div")
+            name_box.id="name_box"
+            let name=document.createElement("p");
+            name.innerText=element.name;
+            name.style.color="white";
+            
+            let gender=document.createElement("p");
+            gender.innerText=element.gender;
+            gender.id="gender"
+            let birth_year1=document.createElement("p");
+            birth_year1.innerText=element.birth_year;
+            birth_year1.id="birth_year"
+            let cover=document.createElement("div")
+            cover.id="cover";
+            cover.addEventListener("click",function(){
+                func(element,index)
+
+            })
+            cover.append(name,gender)
+            name_box.append(cover,birth_year1)
+            card_div.append(name_box)
+        });
+    }
+    function func(data,i){
+    document.querySelector("#box").innerHTML=null;
+    let cont=document.createElement("div")
+    cont.id="cont"
+    let name=document.createElement("h1")
+name.setAttribute("id","name_id")
+    name.innerText=data.name;
+    let small=document.createElement("div")
+    small.id="small"
+    let Chota=document.createElement("div")
+    Chota.id="chota"
+    let info=document.createElement("h3")
+    info.innerText="Personal Info"
+    info.style.color="red"
+    let dob=document.createElement("p")
+    dob.innerText=data.birth_year
+    let gend=document.createElement("p")
+    gend.innerText=data.gender
+    let height=document.createElement("p")
+    height.innerText=data.height;
+   Chota.append(info,dob,gend,height)
+    let Chota1=document.createElement("div")
+    Chota1.id="chota1"
+    let anatony=document.createElement("h3")
+    anatony.innerText="Anatony";
+    anatony.style.color="red"
+    let eye=document.createElement("p")
+    eye.innerText=data.eye_color;
+    let mass=document.createElement("p")
+    mass.innerText=data.mass;
+    let hair=document.createElement("p")
+    hair.innerText=data.hair_color;
+   Chota1.append(anatony,eye,mass,hair)
+   let btn=document.createElement("button")
+   btn.innerText="Go Back"
+   btn.id="btn"
+   btn.addEventListener("click",function(){
+       window.location.reload();
+   })
+small.append(Chota,Chota1)
+   cont.append(name,small,btn)
+console.log(Chota,Chota1)
+document.querySelector("#box").append(cont)
+}
+</script>
